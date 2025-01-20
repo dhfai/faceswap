@@ -35,9 +35,9 @@ export default function UserDashboard() {
       task_type: "face-swap",
       input: {
         target_image: selectedBackground
-          ? `https://faceswap-one.vercel.app/images/${selectedBackground.split("/").pop()}`
+          ? `https://faceswap-one.vercel.app/images/sipil-1.jpgs`
           : "",
-        swap_image: `https://faceswap-one.vercel.app/images/ss/s${capturedImage}`,
+        swap_image: `https://faceswap-one.vercel.app/images/ss/captured-image.jpg`,
       },
     })
 
