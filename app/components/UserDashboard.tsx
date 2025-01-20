@@ -10,14 +10,11 @@ import FaceSwapPreview from "./FaceSwapPreview"
 import BackgroundMajorSelection from "./BackgroundMajorSelection"
 import { Header } from "./Headers"
 import { Footer } from "./Footer"
-import { TabsTriggerProps } from "@radix-ui/react-tabs"
 
 export default function UserDashboard() {
   const [generatedImage, setGeneratedImage] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [taskId, setTaskId] = useState<string | null>(null)
-  const [taskStatus, setTaskStatus] = useState<string | null>(null)
   const [capturedImage, setCapturedImage] = useState<string | null>(null)
   const [tabsVal, setTabsVal] = useState("camera")
 
@@ -33,11 +30,6 @@ export default function UserDashboard() {
     const myHeaders = new Headers()
     myHeaders.append("x-api-key", process.env.NEXT_PUBLIC_API_KEY as string)
     myHeaders.append("Content-Type", "application/json")
-
-    console.log(selectedBackground)
-
-    console.log(`https://faceswap.if.unismuh.ac.id${selectedBackground}`)
-
     const raw = JSON.stringify({
       model: "Qubico/image-toolkit",
       task_type: "face-swap",
@@ -46,8 +38,6 @@ export default function UserDashboard() {
         "swap_image": `https://faceswap.if.unismuh.ac.id/images/ss/captured-image.jpg`    
       },
     })
-
-    // console.log(raw)
 
     const requestOptions = {
       method: "POST",
@@ -59,9 +49,7 @@ export default function UserDashboard() {
     try {
       const response = await fetch("https://api.piapi.ai/api/v1/task", requestOptions)
       const result = await response.json()
-      console.log(result)
       if (result.data && result.data.task_id) {
-        setTaskId(result.data.task_id)
         checkTaskStatus(result.data.task_id)
       } else {
         throw new Error("No task ID in the response")
@@ -86,8 +74,6 @@ export default function UserDashboard() {
     try {
       const response = await fetch(`https://api.piapi.ai/api/v1/task/${id}`, requestOptions)
       const result = await response.json()
-      console.log(result)
-      setTaskStatus(result.data.status)
 
       if (result.data.status === "completed" && result.data.output && result.data.output.image_url) {
         setGeneratedImage(result.data.output.image_url)
@@ -107,18 +93,12 @@ export default function UserDashboard() {
 
   const handleReset = () => {
     setGeneratedImage(null)
-    setTaskId(null)
-    setTaskStatus(null)
     setCapturedImage(null)
   }
 
-  const handleImageCapture = (image: string) => {
-    setCapturedImage(image)
-  }
 
   const getCapturedImage = async(filepath : string) => {
     const actualPath = filepath.split("public/").at(-1) as string
-    
     setCapturedImage(actualPath)
   }
 
