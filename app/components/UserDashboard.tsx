@@ -37,7 +37,7 @@ export default function UserDashboard() {
       task_type: "face-swap",
       input: {
         target_image: selectedBackground
-          ? `https://face-swap.unismuh.ac.id/images/selectBackrgound/${selectedBackground.split("/").pop()}`
+          ? `https://face-swap.unismuh.ac.id/${selectedBackground}`
           : "",
         swap_image: `https://face-swap.unismuh.ac.id/${capturedImage}`,
       },
