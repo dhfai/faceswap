@@ -14,6 +14,7 @@ interface FaceSwapPreviewProps {
 
 export default function FaceSwapPreview({ image, onShare, onReset }: FaceSwapPreviewProps) {
   const [phoneNumber, setPhoneNumber] = useState("")
+  
   const [isLoading, setIsLoading] = useState(false)
 
   const handleShare = async (event: React.FormEvent) => {
@@ -43,7 +44,6 @@ export default function FaceSwapPreview({ image, onShare, onReset }: FaceSwapPre
       } finally {
         setIsLoading(false)
       }
-    }
   }
 
   return (
