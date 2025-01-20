@@ -27,13 +27,13 @@ const majors: Major[] = [
 const backgrounds = [
   { url: "/images/sipil-3.JPG", category: "Lab", majorId: "SIPIL" },
   { url: "/images/sipil-6.jpg", category: "Classroom", majorId: "SIPIL" },
-  { url: "/images/sipil-7.JPG", category: "Outdoors", majorId: "SIPIL" },
+  { url: "/images/sipil-7.jpg", category: "Outdoors", majorId: "SIPIL" },
   { url: "/images/sipil-8.jpg", category: "Lab", majorId: "SIPIL" },
   { url: "/images/sipil-9.jpg", category: "Classroom", majorId: "SIPIL" },
   { url: "/images/sipil-10.jpg", category: "Classroom", majorId: "SIPIL" },
   { url: "/images/elektro-2.jpg", category: "Classroom", majorId: "ELEKTRO" },
   { url: "/images/arsitektur-1.jpg", category: "Lab", majorId: "ARSITEKTUR" },
-  { url: "/images/if-1.jpg", category: "Lab", majorId: "IF" },
+  { url: "/images/if-1.png", category: "Lab", majorId: "IF" },
   { url: "/images/if-2.jpg", category: "Classroom", majorId: "IF" },
   { url: "/images/if-3.jpg", category: "Classroom", majorId: "IF" },
   { url: "/images/if-4.jpg", category: "Classroom", majorId: "IF" },
@@ -79,8 +79,6 @@ export default function BackgroundMajorSelection({
       onGenerate(selectedMajor, backgrounds[selectedBackground].url)
     }
   }
-
-  // console.log(selssectedMajor, selectedBackground, isLoading, capturedImage)
 
   return (
     <div className="space-y-8">
