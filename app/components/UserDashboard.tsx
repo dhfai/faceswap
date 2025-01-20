@@ -37,9 +37,11 @@ export default function UserDashboard() {
         target_image: selectedBackground
           ? `https://face-swap.unismuh.ac.id/images/selectBackrgound/${selectedBackground.split("/").pop()}`
           : "",
-        swap_image: capturedImage,
+        swap_image: `https://face-swap.unismuh.ac.id/${capturedImage}`,
       },
     })
+
+    console.log(raw)
 
     const requestOptions = {
       method: "POST",
@@ -106,6 +108,12 @@ export default function UserDashboard() {
     setCapturedImage(image)
   }
 
+  const getCapturedImage = async(filepath : string) => {
+    const actualPath = filepath.split("public/").at(-1) as string
+    
+    setCapturedImage(actualPath)
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
@@ -131,7 +139,10 @@ export default function UserDashboard() {
               </TabsList>
               <TabsContent value="camera">
                 <div className="space-y-6">
-                  <LiveCamera onCapture={handleImageCapture} />
+                  <LiveCamera onCapture={(filepath) => {
+                    console.log(filepath, "TEst")
+                    getCapturedImage(filepath)
+                  }} />
                   <BackgroundMajorSelection
                     onGenerate={handleGenerate}
                     isLoading={isLoading}
