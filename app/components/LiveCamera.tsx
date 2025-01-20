@@ -59,11 +59,15 @@ const LiveCamera: React.FC<{
                 body: JSON.stringify({ imageData: imageSrc }),
               })
 
-              if(!feting.ok) {
-                throw new Error('Failed to save image')
+              if(feting.status >= 500) {
+                throw new Error("Ada Masalah gan")
               }
 
-              const response : {filePath : string} = await feting.json()
+              const response : {filePath : string, message : string} = await feting.json()
+
+              if(feting.status >= 400) {
+                throw new Error(response.message)
+              }
 
               onCapture(response.filePath)
 
