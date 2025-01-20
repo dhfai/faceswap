@@ -110,7 +110,6 @@ export default function UserDashboard() {
   }
 
   const getCapturedImage = async(filepath : string) => {
-    console.log("Helo Test")
     console.log(filepath)
     // const actualPath = filepath.split("public/").at(-1) as string
     
@@ -143,7 +142,6 @@ export default function UserDashboard() {
               <TabsContent value="camera">
                 <div className="space-y-6">
                   <LiveCamera onCapture={(filepath) => {
-                    console.log(filepath, "TEst")
                     getCapturedImage(filepath)
                   }} />
                   <BackgroundMajorSelection

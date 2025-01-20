@@ -56,6 +56,7 @@ const LiveCamera: React.FC<{
         })
         .then((response) => response.json())
         .then((data : {filePath : string}) => {
+          console.log(data)
           // console.log('Image saved:', data)
           onCapture(data.filePath)
         })
