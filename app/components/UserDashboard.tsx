@@ -37,13 +37,13 @@ export default function UserDashboard() {
       task_type: "face-swap",
       input: {
         target_image: selectedBackground
-          ? `https://face-swap.unismuh.ac.id/images/selectBackrgound/${selectedBackground.split("/").pop()}`
+          ? `https://faceswap-one.vercel.app/images/sipil-1.jpgs`
           : "",
-        swap_image: `https://face-swap.unismuh.ac.id/${capturedImage}`,
+        swap_image: `https://faceswap-one.vercel.app/images/ss/captured-image.jpg`,
       },
     })
 
-    console.log(raw)
+    // console.log(raw)
 
     const requestOptions = {
       method: "POST",
@@ -55,6 +55,7 @@ export default function UserDashboard() {
     try {
       const response = await fetch("https://api.piapi.ai/api/v1/task", requestOptions)
       const result = await response.json()
+      console.log(response)
       if (result.data && result.data.task_id) {
         setTaskId(result.data.task_id)
         checkTaskStatus(result.data.task_id)
@@ -111,9 +112,10 @@ export default function UserDashboard() {
   }
 
   const getCapturedImage = async(filepath : string) => {
-    const actualPath = filepath.split("public/").at(-1) as string
+    console.log(filepath)
+    // const actualPath = filepath.split("public/").at(-1) as string
     
-    setCapturedImage(actualPath)
+    // setCapturedImage(actualPath)
   }
 
   return (
@@ -142,7 +144,6 @@ export default function UserDashboard() {
               <TabsContent value="camera">
                 <div className="space-y-6">
                   <LiveCamera onCapture={(filepath) => {
-                    console.log(filepath, "TEst")
                     getCapturedImage(filepath)
                   }} />
                   <BackgroundMajorSelection
