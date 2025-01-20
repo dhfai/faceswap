@@ -37,7 +37,7 @@ export default function UserDashboard() {
         target_image: selectedBackground
           ? `https://face-swap.unismuh.ac.id/images/selectBackrgound/${selectedBackground.split("/").pop()}`
           : "",
-        swap_image: capturedImage,
+        swap_image: `https://face-swap.unismuh.ac.id/${capturedImage}`,
       },
     })
 
@@ -109,7 +109,9 @@ export default function UserDashboard() {
   }
 
   const getCapturedImage = async(filepath : string) => {
-    setCapturedImage(filepath)
+    const actualPath = filepath.split("public/").at(-1) as string
+    
+    setCapturedImage(actualPath)
   }
 
   return (
