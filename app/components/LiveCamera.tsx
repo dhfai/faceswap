@@ -41,12 +41,13 @@ const LiveCamera: React.FC = () => {
   const captureImage = useCallback(() => {
     if (webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot()
-      setCapturedImage(imageSrc)
+      const fileName = `snap-${Date.now()}.jpg`
+      setCapturedImage(`/images/snap/${fileName}`)
     }
   }, [webcamRef])
 
   return (
-    <div className="w-full max-w-3xl mx-auto bg-[#F0F8FF] p-4 rounded-lg shadow-md">
+    <div className="w-full max-w-3xl mx-auto bg-[#F0F8FF] p-2 sm:p-4 rounded-lg shadow-md">
       <div className="mb-4 flex justify-between items-center">
         <Button
           onClick={handleCameraToggle}
