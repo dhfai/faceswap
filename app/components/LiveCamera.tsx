@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useCallback } from 'react'
 import Webcam from 'react-webcam'
 import { Button } from "@/components/ui/button"
