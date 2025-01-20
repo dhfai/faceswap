@@ -129,7 +129,7 @@ export default function UserDashboard() {
       <main className="flex-grow container mx-auto px-2 sm:px-4 py-4 sm:py-8">
         <Card className="w-full bg-white">
           <CardHeader className="bg-[#F0F8FF] text-[#00008B]">
-            <CardTitle>Live Face Swap</CardTitle>
+            <CardTitle>Live Face Swap by Fakultas Teknik Background</CardTitle>
             <CardDescription className="text-[#4682B4]">Ubah penampilan Anda secara real-time!</CardDescription>
           </CardHeader>
           <CardContent className="p-6">

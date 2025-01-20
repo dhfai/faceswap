@@ -1,32 +1,59 @@
-/* eslint-disable @next/next/no-img-element */
 "use client"
 
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Download, Share2, RotateCcw } from 'lucide-react'
+import { Input } from "@/components/ui/input"
+import { Share2, RotateCcw, Send } from "lucide-react"
 
 interface FaceSwapPreviewProps {
   image: string
-  onDownload: () => void
-  onShare: () => void
+  onShare: (phoneNumber: string) => void
   onReset: () => void
 }
 
-export default function FaceSwapPreview({ image, onDownload, onShare, onReset }: FaceSwapPreviewProps) {
+export default function FaceSwapPreview({ image, onShare, onReset }: FaceSwapPreviewProps) {
+  const [phoneNumber, setPhoneNumber] = useState("")
+
+  const handleShare = () => {
+    if (phoneNumber) {
+      onShare(phoneNumber)
+    }
+  }
+
   return (
-    <Card className="bg-white">
-      <CardContent className="p-6 space-y-4">
-        <img src={image || "/placeholder.svg"} alt="Face Swap Result" className="w-full rounded-lg" />
-        <div className="flex flex-col sm:flex-row justify-between">
-          <Button onClick={onDownload} className="bg-[#1E90FF] text-white hover:bg-[#4682B4]">
-            <Download className="mr-2 h-4 w-4" /> Download
-          </Button>
-          <Button onClick={onShare} variant="outline" className="border-gray-300 text-[#2F4F4F] hover:bg-gray-100">
-            <Share2 className="mr-2 h-4 w-4" /> Share
-          </Button>
-          <Button onClick={onReset} variant="ghost" className="text-[#2F4F4F] hover:bg-gray-100">
-            <RotateCcw className="mr-2 h-4 w-4" /> Reset
-          </Button>
+    <Card className="bg-gradient-to-br from-blue-100 to-purple-100 shadow-lg">
+      <CardContent className="p-6 space-y-6">
+        <img
+          src={image || "/placeholder.svg?height=300&width=300"}
+          alt="Hasil Face Swap"
+          className="w-full rounded-lg shadow-md transition-transform duration-300 hover:scale-105"
+        />
+        <div className="space-y-4">
+          <div className="flex items-center space-x-2">
+            <Input
+              type="tel"
+              placeholder="Masukkan Nomor WhatsApp"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              className="flex-grow"
+            />
+            <Button
+              onClick={handleShare}
+              className="bg-green-500 text-white hover:bg-green-600 transition-colors duration-300"
+            >
+              <Send className="mr-2 h-4 w-4" /> Kirim
+            </Button>
+          </div>
+          <div className="flex justify-end">
+            <Button
+              onClick={onReset}
+              variant="ghost"
+              className="flex-1 ml-2 text-purple-600 hover:bg-purple-50 transition-colors duration-300"
+            >
+              <RotateCcw className="mr-2 h-4 w-4" /> Atur Ulang
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>

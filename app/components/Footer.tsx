@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { Facebook, Instagram, Twitter } from "lucide-react"
+import { Facebook, Instagram, Youtube } from "lucide-react"
 
 export function Footer() {
   return (
@@ -12,18 +12,17 @@ export function Footer() {
           </div>
           <div className="text-sm mb-4 md:mb-0 text-center md:text-left">
             <p>JL. SULTAN ALAUDDIN NO. 259, Kota Makassar, 90221</p>
-            <p>Phone: 0411-860837/860132</p>
-            <p>Email: Teknik@unismuh.ac.id</p>
+            <p>Email: teknik@unismuh.ac.id</p>
           </div>
           <div className="flex space-x-4">
-            <a href="#" className="text-white hover:text-[#4682B4] transition-colors">
+            <a href="https://www.facebook.com/profile.php?id=100086247710385" className="text-white hover:text-[#4682B4] transition-colors">
               <Facebook size={24} />
             </a>
             <a href="#" className="text-white hover:text-[#4682B4] transition-colors">
               <Instagram size={24} />
             </a>
             <a href="#" className="text-white hover:text-[#4682B4] transition-colors">
-              <Twitter size={24} />
+              <Youtube size={24} />
             </a>
           </div>
         </div>
