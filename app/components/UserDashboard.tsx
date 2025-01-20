@@ -138,6 +138,7 @@ export default function UserDashboard() {
                 <TabsTrigger 
                 onClick={() => {
                   setTabsVal("camera")
+                  
                 }}
                 value="camera" className="data-[state=active]:bg-[#00008B] data-[state=active]:text-white">
                   Live Camera
