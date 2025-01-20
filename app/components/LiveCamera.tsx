@@ -47,22 +47,34 @@ const LiveCamera: React.FC<{
 
       // Send the captured image to the server
       if (imageSrc) {
-        fetch('/api/save-image', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ imageData: imageSrc }),
-        })
-        .then((response) => response.json())
-        .then((data : {filePath : string}) => {
-          console.log(data)
-          // console.log('Image saved:', data)
-          onCapture(data.filePath)
-        })
-        .catch((error) => {
-          console.error('Error saving image:', error)
-        })
+        (
+          async () => {
+            try {
+
+              const feting =  await fetch('/api/save-image', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ imageData: imageSrc }),
+              })
+
+              if(!feting.ok) {
+                throw new Error('Failed to save image')
+              }
+
+              const response : {filePath : string} = await feting.json()
+
+              onCapture(response.filePath)
+
+            }catch(err) {
+              alert("Ada Masalah Gan")
+            }
+            
+          }
+        )
+        
+       
       }
     }
   }, [webcamRef])
