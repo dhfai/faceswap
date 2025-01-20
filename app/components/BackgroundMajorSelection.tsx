@@ -75,8 +75,8 @@ export default function BackgroundMajorSelection({
 
   const handleGenerateClick = () => {
     if (selectedMajor && selectedBackground !== null) {
-
-      onGenerate(selectedMajor, backgrounds[selectedBackground].url)
+      const selectedBg = filteredBackgrounds[selectedBackground];
+      onGenerate(selectedMajor, selectedBg.url);
     }
   }
 
