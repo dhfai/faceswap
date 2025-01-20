@@ -45,6 +45,7 @@ export default function FaceSwapPreview({ image, onShare, onReset }: FaceSwapPre
         setIsLoading(false)
       }
   }
+}
 
   return (
     <Card className="bg-gradient-to-br from-blue-100 to-purple-100 shadow-lg">
