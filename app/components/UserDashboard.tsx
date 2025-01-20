@@ -32,14 +32,16 @@ export default function UserDashboard() {
     myHeaders.append("x-api-key", process.env.NEXT_PUBLIC_API_KEY as string)
     myHeaders.append("Content-Type", "application/json")
 
+    console.log(selectedBackground)
+
+    console.log(`https://faceswap.if.unismuh.ac.id${selectedBackground}`)
+
     const raw = JSON.stringify({
       model: "Qubico/image-toolkit",
       task_type: "face-swap",
       input: {
-        target_image: selectedBackground
-          ? `https://faceswap-one.vercel.app/images/sipil-1.jpgs`
-          : "",
-        swap_image: `https://faceswap-one.vercel.app/images/ss/captured-image.jpg`,
+        "target_image": `https://faceswap.if.unismuh.ac.id${selectedBackground}`,
+        "swap_image": `https://faceswap.if.unismuh.ac.id/images/ss/captured-image.jpg`    
       },
     })
 
@@ -49,13 +51,13 @@ export default function UserDashboard() {
       method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: "follow" as RequestRedirect,
+      redirect : "follow" as RequestRedirect
     }
 
     try {
       const response = await fetch("https://api.piapi.ai/api/v1/task", requestOptions)
       const result = await response.json()
-      console.log(response)
+      console.log(result)
       if (result.data && result.data.task_id) {
         setTaskId(result.data.task_id)
         checkTaskStatus(result.data.task_id)
@@ -82,10 +84,11 @@ export default function UserDashboard() {
     try {
       const response = await fetch(`https://api.piapi.ai/api/v1/task/${id}`, requestOptions)
       const result = await response.json()
+      console.log(result)
       setTaskStatus(result.data.status)
 
-      if (result.data.status === "completed" && result.data.output && result.data.output.image) {
-        setGeneratedImage(result.data.output.image)
+      if (result.data.status === "completed" && result.data.output && result.data.output.image_url) {
+        setGeneratedImage(result.data.output.image_url)
         setIsLoading(false)
       } else if (result.data.status === "failed") {
         setError("Face swap task failed. Please try again.")
@@ -112,10 +115,9 @@ export default function UserDashboard() {
   }
 
   const getCapturedImage = async(filepath : string) => {
-    console.log(filepath)
-    // const actualPath = filepath.split("public/").at(-1) as string
+    const actualPath = filepath.split("public/").at(-1) as string
     
-    // setCapturedImage(actualPath)
+    setCapturedImage(actualPath)
   }
 
   return (
@@ -135,7 +137,7 @@ export default function UserDashboard() {
                 </TabsTrigger>
                 <TabsTrigger
                   value="result"
-                  disabled={!generatedImage}
+                  disabled={generatedImage == null}
                   className="data-[state=active]:bg-[#00008B] data-[state=active]:text-white"
                 >
                   Result
