@@ -94,13 +94,12 @@ export default function UserDashboard() {
         setIsLoading(false)
         setTabsVal("result")
       } else if (result.data.status === "failed") {
-        setError("Face swap task failed. Please try again.")
+        setError("Lagi ada masalah nih, coba lagi ya")
         setIsLoading(false)
       } else {
         setTimeout(() => checkTaskStatus(id), 2000)
       }
     } catch (error) {
-      console.error("error", error)
       setError("Failed to check task status. Please try again.")
       setIsLoading(false)
     }
@@ -171,7 +170,6 @@ export default function UserDashboard() {
                 {generatedImage && (
                   <FaceSwapPreview
                     image={generatedImage}
-                    onDownload={() => console.log("Downloading...")}
                     onShare={() => console.log("Sharing...")}
                     onReset={handleReset}
                   />
