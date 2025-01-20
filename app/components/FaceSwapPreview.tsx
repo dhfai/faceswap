@@ -29,7 +29,7 @@ export default function FaceSwapPreview({ image, onShare, onReset }: FaceSwapPre
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             number: phoneNumber,
-            caption: "Hasil Face Swap Unismuh Makasssar - Fakutlas Teknik , created by @devnolife",
+            caption: "Hasil Face Swap Unismuh Makasssar - Fakultas Teknik , created by @devnolife",
             url: image
           })
         })
