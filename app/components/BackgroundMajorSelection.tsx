@@ -64,8 +64,6 @@ export default function BackgroundMajorSelection({
     }
   }
 
-  // console.log(selssectedMajor, selectedBackground, isLoading, capturedImage)
-
   return (
     <div className="space-y-8">
       <div className="flex justify-center space-x-4 overflow-x-auto pb-4">
