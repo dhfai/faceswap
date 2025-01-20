@@ -72,7 +72,7 @@ const LiveCamera: React.FC<{
             }
             
           }
-        )
+        )()
         
        
       }
