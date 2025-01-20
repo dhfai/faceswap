@@ -110,9 +110,10 @@ export default function UserDashboard() {
   }
 
   const getCapturedImage = async(filepath : string) => {
-    const actualPath = filepath.split("public/").at(-1) as string
+    console.log(filepath)
+    // const actualPath = filepath.split("public/").at(-1) as string
     
-    setCapturedImage(actualPath)
+    // setCapturedImage(actualPath)
   }
 
   return (
