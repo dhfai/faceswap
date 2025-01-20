@@ -80,13 +80,12 @@ export default function UserDashboard() {
         setIsLoading(false)
         setTabsVal("result")
       } else if (result.data.status === "failed") {
-        setError("Face swap task failed. Please try again.")
+        setError("Lagi ada masalah nih, coba lagi ya")
         setIsLoading(false)
       } else {
         setTimeout(() => checkTaskStatus(id), 2000)
       }
     } catch (error) {
-      console.error("error", error)
       setError("Failed to check task status. Please try again.")
       setIsLoading(false)
     }
@@ -109,7 +108,7 @@ export default function UserDashboard() {
       <main className="flex-grow container mx-auto px-2 sm:px-4 py-4 sm:py-8">
         <Card className="w-full bg-white">
           <CardHeader className="bg-[#F0F8FF] text-[#00008B]">
-            <CardTitle>Live Face Swap</CardTitle>
+            <CardTitle>Live Face Swap by Fakultas Teknik Background</CardTitle>
             <CardDescription className="text-[#4682B4]">Ubah penampilan Anda secara real-time!</CardDescription>
           </CardHeader>
           <CardContent className="p-6">

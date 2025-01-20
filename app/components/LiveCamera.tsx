@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { Camera, CameraOff, RefreshCw } from 'lucide-react'
 
 
-
 const LiveCamera: React.FC<{
   onCapture: (filepath : string) => void
  }> = ({onCapture}) => {
@@ -34,7 +33,7 @@ const LiveCamera: React.FC<{
 
   const handleCameraError = useCallback((error: string | DOMException) => {
     // console.error('Camera error:', error)
-    setError('Unable to access camera. Please check permissions or connect a camera.')
+    setError('Tidak dapat mengakses kamera. Mohon periksa izin atau sambungkan kamera.')
     setIsCameraActive(false)
   }, [])
 
@@ -79,74 +78,90 @@ const LiveCamera: React.FC<{
             
           }
         )()
-        
-       
+        setIsCameraActive(false) // <-- Tambahkan ini agar kamera langsung berhenti
       }
     }
   }, [webcamRef])
 
+  const retakePhoto = useCallback(() => {
+    setCapturedImage(null)
+    setIsCameraActive(true)
+    setError(null)
+  }, [])
+
   return (
     <div className="w-full max-w-3xl mx-auto bg-[#F0F8FF] p-4 rounded-lg shadow-md">
-      <div className="mb-4 flex justify-between items-center">
-        <Button
-          onClick={handleCameraToggle}
-          className={`${isCameraActive ? 'bg-[#4682B4]' : 'bg-[#1E90FF]'
-            } text-white hover:bg-[#4682B4] transition-colors`}
-        >
-          {isCameraActive ? (
-            <>
-              <CameraOff className="mr-2 h-4 w-4" /> Deactivate Camera
-            </>
-          ) : (
-            <>
-              <Camera className="mr-2 h-4 w-4" /> Activate Camera
-            </>
-          )}
-        </Button>
-        {isCameraActive && (
-          <>
-            <Button onClick={switchCamera} className="bg-[#4682B4] text-white hover:bg-[#1E90FF] transition-colors">
-              <RefreshCw className="mr-2 h-4 w-4" /> Switch Camera
+      {!capturedImage ? (
+        <>
+          <div className="mb-4 flex justify-center items-center">
+            <Button
+              onClick={handleCameraToggle}
+              className={`${isCameraActive ? 'bg-[#4682B4]' : 'bg-[#1E90FF]'
+                } text-white hover:bg-[#4682B4] transition-colors`}
+            >
+              {isCameraActive ? (
+                <>
+                  <CameraOff className="mr-2 h-4 w-4" /> Nonaktifkan Kamera
+                </>
+              ) : (
+                <>
+                  <Camera className="mr-2 h-4 w-4" /> Aktifkan Kamera
+                </>
+              )}
             </Button>
-            <Button onClick={captureImage} className="bg-[#4682B4] text-white hover:bg-[#1E90FF] transition-colors">
-              Capture Image
-            </Button>
-          </>
-        )}
-      </div>
-      <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
-        {isCameraActive ? (
-          <Webcam
-            audio={false}
-            ref={webcamRef}
-            videoConstraints={videoConstraints}
-            onUserMediaError={handleCameraError}
-            className="w-full h-full object-cover"
-            mirrored={true} 
-            screenshotFormat="image/jpeg" 
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-white text-center p-4">
-            <p className="text-[#2F4F4F]">
-              {error || "Camera is inactive. Click the button to activate."}
-            </p>
           </div>
-        )}
-        {isCameraActive && (
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="w-full h-full grid grid-cols-3 grid-rows-3">
-              {[...Array(9)].map((_, i) => (
-                <div key={i} className="border border-white opacity-30"></div>
-              ))}
+          <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
+            {isCameraActive ? (
+              <Webcam
+                audio={false}
+                ref={webcamRef}
+                videoConstraints={videoConstraints}
+                onUserMediaError={handleCameraError}
+                className="w-full h-full object-cover"
+                mirrored={true} 
+                screenshotFormat="image/jpeg" 
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center text-white text-center p-4">
+                <p className="text-[#2F4F4F]">
+                  {error || "Kamera sedang tidak aktif. Klik tombol untuk mengaktifkan."}
+                </p>
+              </div>
+            )}
+            {isCameraActive && (
+              <div className="absolute inset-0 pointer-events-none">
+                <div className="w-full h-full grid grid-cols-3 grid-rows-3">
+                  {[...Array(9)].map((_, i) => (
+                    <div key={i} className="border border-white opacity-30"></div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+          {isCameraActive && (
+            <div className="mt-4 flex justify-center items-center">
+              <Button onClick={captureImage} className="bg-[#4682B4] text-white hover:bg-[#1E90FF] transition-colors">
+                Tangkap Foto
+              </Button>
             </div>
+          )}
+        </>
+      ) : (
+        <>
+          <img
+            src={capturedImage}
+            alt="Captured"
+            className="w-full h-auto mt-2 rounded-lg shadow-md"
+          />
+          <div className="mt-4 flex justify-center items-center">
+            <Button
+              onClick={retakePhoto}
+              className="bg-[#4682B4] text-white hover:bg-[#1E90FF] transition-colors"
+            >
+              Ambil Ulang {/* Ganti dari "Retake" */}
+            </Button>
           </div>
-        )}
-      </div>
-      {capturedImage && (
-        <div className="mt-4">
-          <h3 className="text-[#2F4F4F]">Captured Image:</h3>
-          <img src={capturedImage} alt="Captured" className="w-full h-auto mt-2 rounded-lg shadow-md" />
-        </div>
+        </>
       )}
     </div>
   )
