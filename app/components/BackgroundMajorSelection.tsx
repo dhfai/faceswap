@@ -17,19 +17,33 @@ interface Major {
 }
 
 const majors: Major[] = [
-  { id: "SIPIL", name: "Teknik Sipil", icon: <Building2 className="h-8 w-8" /> },
-  { id: "ELEKTRO", name: "Elektro", icon: <Cpu className="h-8 w-8" /> },
+  { id: "SIPIL", name: "Pengarain", icon: <Building2 className="h-8 w-8" /> },
+  { id: "ELEKTRO", name: "Teknik Elektro", icon: <Cpu className="h-8 w-8" /> },
   { id: "ARSITEKTUR", name: "Arsitektur", icon: <Home className="h-8 w-8" /> },
   { id: "IF", name: "Informatika", icon: <BookOpen className="h-8 w-8" /> },
-  { id: "PW", name: "Perencanaan Wilayah", icon: <MapPin className="h-8 w-8" /> },
+  { id: "PW", name: "Perencanaan Wilayah dan Kota", icon: <MapPin className="h-8 w-8" /> },
 ]
 
 const backgrounds = [
-  { url: "/images/sipil-1.jpg", category: "Lab" },
-  { url: "/images/sipil-2.jpg", category: "Classroom" },
-  { url: "/images/sipil-3.JPG", category: "Outdoors" },
-  { url: "/images/sipil-4.jpg", category: "Lab" },
-  { url: "/images/sipil-5.jpg", category: "Classroom" },
+  { url: "/images/sipil-3.JPG", category: "Lab", majorId: "SIPIL" },
+  { url: "/images/sipil-6.jpg", category: "Classroom", majorId: "SIPIL" },
+  { url: "/images/sipil-7.JPG", category: "Outdoors", majorId: "SIPIL" },
+  { url: "/images/sipil-8.jpg", category: "Lab", majorId: "SIPIL" },
+  { url: "/images/sipil-9.jpg", category: "Classroom", majorId: "SIPIL" },
+  { url: "/images/sipil-10.jpg", category: "Classroom", majorId: "SIPIL" },
+  { url: "/images/elektro-2.jpg", category: "Classroom", majorId: "ELEKTRO" },
+  { url: "/images/arsitektur-1.jpg", category: "Lab", majorId: "ARSITEKTUR" },
+  { url: "/images/if-1.jpg", category: "Lab", majorId: "IF" },
+  { url: "/images/if-2.jpg", category: "Classroom", majorId: "IF" },
+  { url: "/images/if-3.jpg", category: "Classroom", majorId: "IF" },
+  { url: "/images/if-4.jpg", category: "Classroom", majorId: "IF" },
+  { url: "/images/if-5.jpg", category: "Classroom", majorId: "IF" },
+  { url: "/images/pwk-1.jpg", category: "Lab", majorId: "PW" },
+  { url: "/images/pwk-2.jpg", category: "Classroom", majorId: "PW" },
+  { url: "/images/pwk-3.jpg", category: "Classroom", majorId: "PW" },
+  { url: "/images/pwk-4.jpg", category: "Classroom", majorId: "PW" },
+  { url: "/images/pwk-5.jpg", category: "Classroom", majorId: "PW" },
+  { url: "/images/pwk-6.jpg", category: "Classroom", majorId: "PW" },
 ]
 
 interface BackgroundMajorSelectionProps {
@@ -55,7 +69,9 @@ export default function BackgroundMajorSelection({
     setSelectedBackground(index)
   }
 
-  const filteredBackgrounds = category ? backgrounds.filter((bg) => bg.category === category) : backgrounds
+  const filteredBackgrounds = selectedMajor
+    ? backgrounds.filter((bg) => bg.majorId === selectedMajor.id && (!category || bg.category === category))
+    : backgrounds
 
   const handleGenerateClick = () => {
     if (selectedMajor && selectedBackground !== null) {
