@@ -57,9 +57,12 @@ export default function BackgroundMajorSelection({
 
   const handleGenerateClick = () => {
     if (selectedMajor && selectedBackground !== null) {
+
       onGenerate(selectedMajor, backgrounds[selectedBackground].url)
     }
   }
+
+  console.log(selectedMajor, selectedBackground, isLoading, capturedImage)
 
   return (
     <div className="space-y-8">

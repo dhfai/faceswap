@@ -1,11 +1,13 @@
-"use client"
-
 import React, { useState, useRef, useCallback } from 'react'
 import Webcam from 'react-webcam'
 import { Button } from "@/components/ui/button"
 import { Camera, CameraOff, RefreshCw } from 'lucide-react'
 
-const LiveCamera: React.FC = () => {
+
+
+const LiveCamera: React.FC<{
+  onCapture: (filepath : string) => void
+ }> = ({onCapture}) => {
   const [isCameraActive, setIsCameraActive] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [facingMode, setFacingMode] = useState<'user' | 'environment'>('user')
@@ -41,13 +43,31 @@ const LiveCamera: React.FC = () => {
   const captureImage = useCallback(() => {
     if (webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot()
-      const fileName = `snap-${Date.now()}.jpg`
-      setCapturedImage(`/images/snap/${fileName}`)
+      setCapturedImage(imageSrc)
+
+      // Send the captured image to the server
+      if (imageSrc) {
+        fetch('/api/save-image', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ imageData: imageSrc }),
+        })
+        .then((response) => response.json())
+        .then((data : {filePath : string}) => {
+          console.log('Image saved:', data)
+          onCapture(data.filePath)
+        })
+        .catch((error) => {
+          console.error('Error saving image:', error)
+        })
+      }
     }
   }, [webcamRef])
 
   return (
-    <div className="w-full max-w-3xl mx-auto bg-[#F0F8FF] p-2 sm:p-4 rounded-lg shadow-md">
+    <div className="w-full max-w-3xl mx-auto bg-[#F0F8FF] p-4 rounded-lg shadow-md">
       <div className="mb-4 flex justify-between items-center">
         <Button
           onClick={handleCameraToggle}
@@ -114,4 +134,3 @@ const LiveCamera: React.FC = () => {
 }
 
 export default LiveCamera
-

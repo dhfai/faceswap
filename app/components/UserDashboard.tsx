@@ -41,6 +41,8 @@ export default function UserDashboard() {
       },
     })
 
+    console.log(raw)
+
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
@@ -106,6 +108,10 @@ export default function UserDashboard() {
     setCapturedImage(image)
   }
 
+  const getCapturedImage = async(filepath : string) => {
+    setCapturedImage(filepath)
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
@@ -131,7 +137,10 @@ export default function UserDashboard() {
               </TabsList>
               <TabsContent value="camera">
                 <div className="space-y-6">
-                  <LiveCamera onCapture={handleImageCapture} />
+                  <LiveCamera onCapture={(filepath) => {
+                    console.log(filepath, "TEst")
+                    getCapturedImage(filepath)
+                  }} />
                   <BackgroundMajorSelection
                     onGenerate={handleGenerate}
                     isLoading={isLoading}
