@@ -31,7 +31,7 @@ const LiveCamera: React.FC<{
   }, [isCameraActive])
 
   const handleCameraError = useCallback((error: string | DOMException) => {
-    console.error('Camera error:', error)
+    // console.error('Camera error:', error)
     setError('Unable to access camera. Please check permissions or connect a camera.')
     setIsCameraActive(false)
   }, [])
@@ -56,7 +56,7 @@ const LiveCamera: React.FC<{
         })
         .then((response) => response.json())
         .then((data : {filePath : string}) => {
-          console.log('Image saved:', data)
+          // console.log('Image saved:', data)
           onCapture(data.filePath)
         })
         .catch((error) => {

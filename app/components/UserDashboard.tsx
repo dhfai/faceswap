@@ -41,7 +41,7 @@ export default function UserDashboard() {
       },
     })
 
-    console.log(raw)
+    // console.log(raw)
 
     const requestOptions = {
       method: "POST",
@@ -53,6 +53,7 @@ export default function UserDashboard() {
     try {
       const response = await fetch("https://api.piapi.ai/api/v1/task", requestOptions)
       const result = await response.json()
+      console.log(response)
       if (result.data && result.data.task_id) {
         setTaskId(result.data.task_id)
         checkTaskStatus(result.data.task_id)
