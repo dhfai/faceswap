@@ -17,8 +17,8 @@ const LiveCamera: React.FC<{
   const webcamRef = useRef<Webcam>(null)
 
   const videoConstraints = {
-    width: 1920,
-    height: 1080,
+    width: 1080,
+    height: 768,
     facingMode: facingMode,
   }
 
@@ -33,7 +33,7 @@ const LiveCamera: React.FC<{
   }, [isCameraActive])
 
   const handleCameraError = useCallback((error: string | DOMException) => {
-    console.error('Camera error:', error)
+    // console.error('Camera error:', error)
     setError('Unable to access camera. Please check permissions or connect a camera.')
     setIsCameraActive(false)
   }, [])
@@ -49,21 +49,38 @@ const LiveCamera: React.FC<{
 
       // Send the captured image to the server
       if (imageSrc) {
-        fetch('/api/save-image', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ imageData: imageSrc }),
-        })
-        .then((response) => response.json())
-        .then((data : {filePath : string}) => {
-          console.log('Image saved:', data)
-          onCapture(data.filePath)
-        })
-        .catch((error) => {
-          console.error('Error saving image:', error)
-        })
+        (
+          async () => {
+            try {
+
+              const feting =  await fetch('/api/save-image', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ imageData: imageSrc }),
+              })
+
+              if(feting.status >= 500) {
+                throw new Error("Ada Masalah gan")
+              }
+
+              const response : {filePath : string, message : string} = await feting.json()
+
+              if(feting.status >= 400) {
+                throw new Error(response.message)
+              }
+
+              onCapture(response.filePath)
+
+            }catch(err) {
+              alert("Ada Masalah Gan")
+            }
+            
+          }
+        )()
+        
+       
       }
     }
   }, [webcamRef])

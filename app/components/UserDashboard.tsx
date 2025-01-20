@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import LiveCamera from "./LiveCamera"
@@ -10,6 +10,7 @@ import FaceSwapPreview from "./FaceSwapPreview"
 import BackgroundMajorSelection from "./BackgroundMajorSelection"
 import { Header } from "./Headers"
 import { Footer } from "./Footer"
+import { TabsTriggerProps } from "@radix-ui/react-tabs"
 
 export default function UserDashboard() {
   const [generatedImage, setGeneratedImage] = useState<string | null>(null)
@@ -18,6 +19,7 @@ export default function UserDashboard() {
   const [taskId, setTaskId] = useState<string | null>(null)
   const [taskStatus, setTaskStatus] = useState<string | null>(null)
   const [capturedImage, setCapturedImage] = useState<string | null>(null)
+  const [tabsVal, setTabsVal] = useState("camera")
 
   const handleGenerate = async (selectedMajor: any, selectedBackground: string | null) => {
     if (!capturedImage) {
@@ -32,29 +34,32 @@ export default function UserDashboard() {
     myHeaders.append("x-api-key", process.env.NEXT_PUBLIC_API_KEY as string)
     myHeaders.append("Content-Type", "application/json")
 
+    console.log(selectedBackground)
+
+    console.log(`https://faceswap.if.unismuh.ac.id${selectedBackground}`)
+
     const raw = JSON.stringify({
       model: "Qubico/image-toolkit",
       task_type: "face-swap",
       input: {
-        target_image: selectedBackground
-          ? `https://face-swap.unismuh.ac.id/${selectedBackground}`
-          : "",
-        swap_image: `https://face-swap.unismuh.ac.id/${capturedImage}`,
+        "target_image": `https://faceswap.if.unismuh.ac.id${selectedBackground}`,
+        "swap_image": `https://faceswap.if.unismuh.ac.id/images/ss/captured-image.jpg`    
       },
     })
 
-    console.log(raw)
+    // console.log(raw)
 
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: "follow" as RequestRedirect,
+      redirect : "follow" as RequestRedirect
     }
 
     try {
       const response = await fetch("https://api.piapi.ai/api/v1/task", requestOptions)
       const result = await response.json()
+      console.log(result)
       if (result.data && result.data.task_id) {
         setTaskId(result.data.task_id)
         checkTaskStatus(result.data.task_id)
@@ -81,11 +86,13 @@ export default function UserDashboard() {
     try {
       const response = await fetch(`https://api.piapi.ai/api/v1/task/${id}`, requestOptions)
       const result = await response.json()
+      console.log(result)
       setTaskStatus(result.data.status)
 
-      if (result.data.status === "completed" && result.data.output && result.data.output.image) {
-        setGeneratedImage(result.data.output.image)
+      if (result.data.status === "completed" && result.data.output && result.data.output.image_url) {
+        setGeneratedImage(result.data.output.image_url)
         setIsLoading(false)
+        setTabsVal("result")
       } else if (result.data.status === "failed") {
         setError("Face swap task failed. Please try again.")
         setIsLoading(false)
@@ -126,14 +133,22 @@ export default function UserDashboard() {
             <CardDescription className="text-[#4682B4]">Ubah penampilan Anda secara real-time!</CardDescription>
           </CardHeader>
           <CardContent className="p-6">
-            <Tabs defaultValue="camera">
+            <Tabs value={tabsVal} defaultValue="camera">
               <TabsList className="grid w-full grid-cols-2 bg-[#F0F8FF] sm:grid-cols-1 mb-6">
-                <TabsTrigger value="camera" className="data-[state=active]:bg-[#00008B] data-[state=active]:text-white">
+                <TabsTrigger 
+                onClick={() => {
+                  setTabsVal("camera")
+                  
+                }}
+                value="camera" className="data-[state=active]:bg-[#00008B] data-[state=active]:text-white">
                   Live Camera
                 </TabsTrigger>
                 <TabsTrigger
+                  onClick={() => {
+                    setTabsVal("result")
+                  }}
                   value="result"
-                  disabled={!generatedImage}
+                  disabled={generatedImage == null}
                   className="data-[state=active]:bg-[#00008B] data-[state=active]:text-white"
                 >
                   Result
@@ -142,7 +157,6 @@ export default function UserDashboard() {
               <TabsContent value="camera">
                 <div className="space-y-6">
                   <LiveCamera onCapture={(filepath) => {
-                    console.log(filepath, "TEst")
                     getCapturedImage(filepath)
                   }} />
                   <BackgroundMajorSelection

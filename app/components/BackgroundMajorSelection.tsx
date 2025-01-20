@@ -64,7 +64,7 @@ export default function BackgroundMajorSelection({
     }
   }
 
-  console.log(selectedMajor, selectedBackground, isLoading, capturedImage)
+  // console.log(selssectedMajor, selectedBackground, isLoading, capturedImage)
 
   return (
     <div className="space-y-8">

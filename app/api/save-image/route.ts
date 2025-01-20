@@ -21,6 +21,7 @@ export async function POST(req: Request) {
     const filePath = saveImage(imageData)
     return NextResponse.json({ message: 'Image saved successfully.', filePath })
   } catch (error) {
-    return NextResponse.json({ message: 'Failed to save image.', error }, { status: 500 })
+
+    return NextResponse.json({ message: 'Failed to save image.', error }, { status: 400 })
   }
 }
