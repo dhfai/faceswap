@@ -109,7 +109,7 @@ export default function UserDashboard() {
         <Card className="w-full bg-white">
           <CardHeader className="bg-[#F0F8FF] text-[#00008B]">
             <CardTitle>Live Face Swap by Fakultas Teknik Background</CardTitle>
-            <CardDescription className="text-[#4682B4]">Ubah penampilan Anda secara real-time!</CardDescription>
+            <CardDescription className="text-[#4682B4]">Ubah penampilanmu secara real-time!</CardDescription>
           </CardHeader>
           <CardContent className="p-6">
             <Tabs value={tabsVal} defaultValue="camera">
