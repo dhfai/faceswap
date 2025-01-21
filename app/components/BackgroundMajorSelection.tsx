@@ -16,8 +16,8 @@ interface Faculty {
 }
 
 const faculties: Faculty[] = [
-  { id: "kedokteran", name: "KEDOKTERAN DAN ILMU KESEHATAN", icon: <Syringe className="h-8 w-8" /> },
-  { id: "keguruan", name: "KEGURUAN DAN ILMU PENDIDIKAN", icon: <Book className="h-8 w-8" /> },
+  { id: "fkik", name: "KEDOKTERAN DAN ILMU KESEHATAN", icon: <Syringe className="h-8 w-8" /> },
+  { id: "fkip", name: "KEGURUAN DAN ILMU PENDIDIKAN", icon: <Book className="h-8 w-8" /> },
   { id: "agama", name: "AGAMA ISLAM", icon: <Moon className="h-8 w-8" /> },
   { id: "ekonomi", name: "EKONOMI DAN BISNIS", icon: <Briefcase className="h-8 w-8" /> },
   { id: "teknik", name: "TEKNIK", icon: <Wrench className="h-8 w-8" /> },
