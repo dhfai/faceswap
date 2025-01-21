@@ -36,14 +36,45 @@ yarn-error.log*
 next-env.d.ts
 
 .env
-
+# Abaikan semua isi folder fkip
 /public/images/fkip/*
+# Kecualikan file .gitignore di dalam folder fkip
+!/public/images/fkip/.gitignore
+
+# Abaikan semua isi folder ekonomi
 /public/images/ekonomi/*
+# Kecualikan file .gitignore di dalam folder ekonomi
+!/public/images/ekonomi/.gitignore
+
+# Abaikan semua isi folder sospol
 /public/images/sospol/*
+# Kecualikan file .gitignore di dalam folder sospol
+!/public/images/sospol/.gitignore
+
+# Abaikan semua isi folder teknik
 /public/images/teknik/*
+# Kecualikan file .gitignore di dalam folder teknik
+!/public/images/teknik/.gitignore
+
+# Abaikan semua isi folder pertanian
 /public/images/pertanian/*
+# Kecualikan file .gitignore di dalam folder pertanian
+!/public/images/pertanian/.gitignore
+
+# Abaikan semua isi folder fkik
 /public/images/fkik/*
+# Kecualikan file .gitignore di dalam folder fkik
+!/public/images/fkik/.gitignore
+
+# Abaikan semua isi folder agama
 /public/images/agama/*
+# Kecualikan file .gitignore di dalam folder agama
+!/public/images/agama/.gitignore
+
+# Abaikan semua isi folder hukum
 /public/images/hukum/*
+# Kecualikan file .gitignore di dalam folder hukum
+!/public/images/hukum/.gitignore
+
 
 
