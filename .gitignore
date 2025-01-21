@@ -37,4 +37,13 @@ next-env.d.ts
 
 .env
 
-/public/images  
+/public/images/fkip/*
+/public/images/ekonomi/*
+/public/images/sospol/*
+/public/images/teknik/*
+/public/images/pertanian/*
+/public/images/fkik/*
+/public/images/agama/*
+/public/images/hukum/*
+
+
