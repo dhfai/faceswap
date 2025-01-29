@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import LiveCamera from "./LiveCamera"
@@ -13,9 +15,8 @@ export default function UserDashboard() {
   const [generatedImage, setGeneratedImage] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [taskId, setTaskId] = useState<string | null>(null)
-  const [taskStatus, setTaskStatus] = useState<string | null>(null)
   const [capturedImage, setCapturedImage] = useState<string | null>(null)
+  const [tabsVal, setTabsVal] = useState("camera")
 
   const handleGenerate = async (selectedMajor: any, selectedBackground: string | null) => {
     if (!capturedImage) {
@@ -29,33 +30,26 @@ export default function UserDashboard() {
     const myHeaders = new Headers()
     myHeaders.append("x-api-key", process.env.NEXT_PUBLIC_API_KEY as string)
     myHeaders.append("Content-Type", "application/json")
-
     const raw = JSON.stringify({
       model: "Qubico/image-toolkit",
       task_type: "face-swap",
       input: {
-        target_image: selectedBackground
-          ? `https://faceswap-one.vercel.app/images/sipil-1.jpgs`
-          : "",
-        swap_image: `https://faceswap-one.vercel.app/images/ss/captured-image.jpg`,
+        "target_image": `https://faceswap.if.unismuh.ac.id${selectedBackground}`,
+        "swap_image": `https://faceswap.if.unismuh.ac.id/images/ss/captured-image.jpg`    
       },
     })
-
-    // console.log(raw)
 
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: "follow" as RequestRedirect,
+      redirect : "follow" as RequestRedirect
     }
 
     try {
       const response = await fetch("https://api.piapi.ai/api/v1/task", requestOptions)
       const result = await response.json()
-      console.log(response)
       if (result.data && result.data.task_id) {
-        setTaskId(result.data.task_id)
         checkTaskStatus(result.data.task_id)
       } else {
         throw new Error("No task ID in the response")
@@ -80,19 +74,18 @@ export default function UserDashboard() {
     try {
       const response = await fetch(`https://api.piapi.ai/api/v1/task/${id}`, requestOptions)
       const result = await response.json()
-      setTaskStatus(result.data.status)
 
-      if (result.data.status === "completed" && result.data.output && result.data.output.image) {
-        setGeneratedImage(result.data.output.image)
+      if (result.data.status === "completed" && result.data.output && result.data.output.image_url) {
+        setGeneratedImage(result.data.output.image_url)
         setIsLoading(false)
+        setTabsVal("result")
       } else if (result.data.status === "failed") {
-        setError("Face swap task failed. Please try again.")
+        setError("Lagi ada masalah nih, coba lagi ya")
         setIsLoading(false)
       } else {
         setTimeout(() => checkTaskStatus(id), 2000)
       }
     } catch (error) {
-      console.error("error", error)
       setError("Failed to check task status. Please try again.")
       setIsLoading(false)
     }
@@ -100,20 +93,13 @@ export default function UserDashboard() {
 
   const handleReset = () => {
     setGeneratedImage(null)
-    setTaskId(null)
-    setTaskStatus(null)
     setCapturedImage(null)
   }
 
-  const handleImageCapture = (image: string) => {
-    setCapturedImage(image)
-  }
 
   const getCapturedImage = async(filepath : string) => {
-    console.log(filepath)
-    // const actualPath = filepath.split("public/").at(-1) as string
-    
-    // setCapturedImage(actualPath)
+    const actualPath = filepath.split("public/").at(-1) as string
+    setCapturedImage(actualPath)
   }
 
   return (
@@ -122,18 +108,26 @@ export default function UserDashboard() {
       <main className="flex-grow container mx-auto px-2 sm:px-4 py-4 sm:py-8">
         <Card className="w-full bg-white">
           <CardHeader className="bg-[#F0F8FF] text-[#00008B]">
-            <CardTitle>Live Face Swap</CardTitle>
-            <CardDescription className="text-[#4682B4]">Ubah penampilan Anda secara real-time!</CardDescription>
+            <CardTitle>Live Face Swap by Fakultas Teknik Background</CardTitle>
+            <CardDescription className="text-[#4682B4]">Ubah penampilanmu secara real-time!</CardDescription>
           </CardHeader>
           <CardContent className="p-6">
-            <Tabs defaultValue="camera">
+            <Tabs value={tabsVal} defaultValue="camera">
               <TabsList className="grid w-full grid-cols-2 bg-[#F0F8FF] sm:grid-cols-1 mb-6">
-                <TabsTrigger value="camera" className="data-[state=active]:bg-[#00008B] data-[state=active]:text-white">
+                <TabsTrigger 
+                onClick={() => {
+                  setTabsVal("camera")
+                  
+                }}
+                value="camera" className="data-[state=active]:bg-[#00008B] data-[state=active]:text-white">
                   Live Camera
                 </TabsTrigger>
                 <TabsTrigger
+                  onClick={() => {
+                    setTabsVal("result")
+                  }}
                   value="result"
-                  disabled={!generatedImage}
+                  disabled={generatedImage == null}
                   className="data-[state=active]:bg-[#00008B] data-[state=active]:text-white"
                 >
                   Result
@@ -156,7 +150,6 @@ export default function UserDashboard() {
                 {generatedImage && (
                   <FaceSwapPreview
                     image={generatedImage}
-                    onDownload={() => console.log("Downloading...")}
                     onShare={() => console.log("Sharing...")}
                     onReset={handleReset}
                   />
